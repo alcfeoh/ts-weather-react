@@ -17,7 +17,7 @@ function App() {
   }
 
   return (
-      <div className="well">
+      <div className="container-fluid">
         <ZipCodeEntry onAdd={addZipcode} />
         {data ? <Card weather={data} zipcode={95742} /> : <>Loading...</>}
       </div>

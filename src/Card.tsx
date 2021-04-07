@@ -10,7 +10,6 @@ export interface CardProps {
 function Card(props: CardProps) {
   const {weather, zipcode} = props;
   return (
-      <div className="container">
           <div className="well flex">
               <div>
                   <h3>{weather.name} ({zipcode})</h3>
@@ -30,7 +29,6 @@ function Card(props: CardProps) {
                   <img src="https://www.angulartraining.com/images/weather/sun.png"/>
               </div>
           </div>
-      </div>
   );
 }
 
