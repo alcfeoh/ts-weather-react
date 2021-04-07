@@ -1,8 +1,11 @@
 import {WeatherResponse} from './data-types';
 
-const APP_ID = "5a4b2d457ecbef9eb2a71e480b947604";
+const APP_ID = "42b0cd87da0e1ba5a9580ed019511475";
+const URL = 'https://lp-store.herokuapp.com/weather';
+//const URL = 'http://api.openweathermap.org/data/2.5/weather';
 
 export function getWeatherData(zipcode: string): Promise<WeatherResponse> {
-    return fetch(`http://api.openweathermap.org/data/2.5/weather?zip=${zipcode},us&units=imperial&APPID=${APP_ID}`)
-        .then(response => response.json());
+    return fetch(`${URL}?zipcode=${zipcode}&units=imperial&APPID=${APP_ID}`)
+        .then(response => response.json())
+        .then(response => ({...response, zipcode}));
 }

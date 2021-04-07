@@ -10,3 +10,10 @@ export function addZipcode(zipcode: string): string[] {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(zipcodes));
     return zipcodes;
 }
+
+export function removeZipcode(zipcode: string): string[] {
+    let zipcodes = getZipcodes();
+    zipcodes = zipcodes.filter(zip => zip != zipcode);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(zipcodes));
+    return zipcodes;
+}

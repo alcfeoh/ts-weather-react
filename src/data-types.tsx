@@ -38,6 +38,7 @@ export interface Sys {
 
 export interface WeatherResponse {
     coord: Coord;
+    zipcode: string;
     weather: Weather[];
     base: string;
     main: Main;

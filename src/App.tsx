@@ -4,22 +4,36 @@ import {getWeatherData} from './data-service';
 import Card from './Card';
 import {WeatherResponse} from './data-types';
 import ZipCodeEntry from './ZipCodeEntry';
+import {addZipcode, getZipcodes, removeZipcode} from './storage-service';
 
 function App() {
-  const [data, setData] = useState<WeatherResponse>();
+  const [data, setData] = useState<WeatherResponse[]>([]);
 
   useEffect(() => {
-    getWeatherData('95742').then(res => setData(res));
+    const zipcodes = getZipcodes();
+    Promise.all(
+        zipcodes.map(zip => getWeatherData(zip))
+    ).then(responses => setData(responses));
   }, []);
 
-  const addZipcode = (zipcode: string) => {
-    console.log(zipcode);
+  const addZip = (zipcode: string) => {
+    addZipcode(zipcode);
+    getWeatherData(zipcode).then(res => {
+      const newData = [...data, res];
+      setData(newData);
+    });
+  }
+
+  const removeZip = (zipcode: string) => {
+    removeZipcode(zipcode);
+    const newData = data.filter(weather => weather.zipcode != zipcode);
+    setData(newData);
   }
 
   return (
       <div className="container-fluid">
-        <ZipCodeEntry onAdd={addZipcode} />
-        {data ? <Card weather={data} zipcode={95742} /> : <>Loading...</>}
+        <ZipCodeEntry onAdd={addZip} />
+        {data.map(weather => <Card weather={weather} onClose={removeZip} />)}
       </div>
   )
 }
